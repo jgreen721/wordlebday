@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Alata&family=Barlow+Semi+Condensed:wght@500&family=Mukta:wght@200&family=Nunito+Sans:wght@300;600;800&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      body[data-theme="dark"] {
+        --bg-primary: rgb(34, 32, 32);
+        --text-primary: rgb(245, 231, 231);
+      }
+
+      body,
+      body[data-theme="light"] {
+        --bg-primary: rgb(245, 231, 231);
+        --text-primary: rgb(34, 32, 32);
+      }
+
+      body {
+        height: 100vh;
+        width: 100vw;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: "Mukta", sans-serif;
+      }
+
+      .app {
+        height: 100%;
+        width: 100%;
+        padding: 0.5em;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .top-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .flex {
+        display: flex;
+      }
+
+      i {
+        margin: 0px 5px;
+      }
+
+      .line {
+        width: 25px;
+        height: 1px;
+        background: var(--text-primary);
+        margin: 3px 0px;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .correct {
+        display: flex;
+      }
+
+      .correct-tile {
+        margin: 0px 3px;
+      }
+
+      .gameboard {
+        height: 65%;
+        margin: 10px 0px;
+        width: 100%;
+        /* border: 2px solid var(--text-primary); */
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 6px;
+      }
+
+      .game-tile {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--text-primary);
+        font-size: 22px;
+        border-radius: 5%;
+        transition: 1s ease;
+      }
+
+      .keyboard {
+        height: 25%;
+        width: 100%;
+        text-align: Center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .row {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .key-btn {
+        border-radius: 5%;
+        background: gray;
+        height: 50px;
+        width: 50px;
+        margin: 2px;
+        display: Flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .right-letters {
+        display: flex;
+      }
+
+      .key-letter {
+        font-size: 16px;
+        transition: 1s ease;
+      }
+
+      .darken {
+        background: rgb(94, 91, 91);
+      }
+
+      .row-two {
+        width: 95%;
+      }
+
+      .right {
+        background: orange;
+      }
+
+      .correct-spot {
+        background: green;
+      }
+
+      .wrong {
+        background: red;
+      }
+
+      .modal {
+        width: 75%;
+        height: 300px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        position: absolute;
+        top: 25%;
+        padding: 2em;
+        left: 17%;
+        border-radius: 10px;
+        box-shadow: 2px 3px 7px 8px gray;
+        transform: translateX(-100vw);
+      }
+
+      .spin {
+        transition: 2s ease;
+        transform: translateX(0vw) rotate(1080deg);
+      }
+
+      .modal h2 {
+        text-align: center;
+        margin: 15px 0px;
+      }
+
+      .modal h1 {
+        text-align: center;
+        margin: 0px 5px;
+      }
+
+      .right-letter {
+        margin: 0px, 3px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+      }
+
+      .slide {
+        animation: slide 1s forwards;
+        transition: 1s ease;
+        color: aqua;
+      }
+
+      .large {
+        font-size: 35px;
+      }
+
+      @keyframes slide {
+        100% {
+          /* color: red; */
+          transform: translateX(-285px);
+          opacity: 0;
+        }
+      }
+    </style>
+    <title>Wordle Birthday</title>
+  </head>
+  <body data-theme="dark">
+    <div class="app">
+      <div class="top-row">
+        <div class="flex">
+          <div class="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+          <i class="fa fa-question-circle" aria-hidden="true"></i>
+        </div>
+        <h1>Wordle</h1>
+        <div class="flex">
+          <i style="transform: rotate(-90deg)" class="fas fa-chart-bar"></i>
+          <i class="fa fa-cog gear" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="info-row">
+        <div>
+          <h5>Correct:</h5>
+          <span class="correct"></span>
+        </div>
+        <div class="flex">
+          <h1>[</h1>
+          <span class="right-letters"></span>
+          <h1>]</h1>
+        </div>
+      </div>
+      <div class="gameboard"></div>
+      <div class="keyboard">
+        <div class="row row-one"></div>
+        <div class="row row-two"></div>
+        <div class="row row-three"></div>
+      </div>
+
+      <div class="modal">
+        <h4>
+          <span class="large">N</span>ot quite the same level of replay as the
+          original but, hopefully still worth the mouse click!
+        </h4>
+        <h2>Happy Birthday!</h2>
+        <h1>🎂🦞</h1>
+      </div>
+    </div>
+
+    <script>
+      var gameBoard = document.querySelector(".gameboard");
+      var correctEl = document.querySelector(".correct");
+      var rightLetters = document.querySelector(".right-letters");
+      var rows = [
+        document.querySelector(".row-one"),
+        document.querySelector(".row-two"),
+        document.querySelector(".row-three"),
+      ];
+
+      var keys = [
+        "Q",
+        "W",
+        "E",
+        "R",
+        "T",
+        "Y",
+        "U",
+        "I",
+        "O",
+        "P",
+        "A",
+        "S",
+        "D",
+        "F",
+        "G",
+        "H",
+        "J",
+        "K",
+        "L",
+        "Enter",
+        "Z",
+        "X",
+        "C",
+        "V",
+        "B",
+        "N",
+        "M",
+        "<-",
+      ];
+      let rowCounter = 0;
+
+      keys.forEach((key, idx) => {
+        // console.log(key);
+        var div = document.createElement("div");
+        (div.className = "key-btn"),
+          (div.innerHTML = `<h2 class="key-letter">${key}</h2>`);
+        rows[rowCounter].append(div);
+
+        if (idx === 9 || idx === 18 || idx === 28) {
+          //   document.querySelector(".keyboard").prepend(rows[rowCounter]);
+          rowCounter++;
+          return;
+        }
+      });
+
+      for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 5; j++) {
+          let gameTile = document.createElement("div");
+          gameTile.className = "game-tile";
+          gameTile.innerHTML = "<span style='opacity:0'>?</span>";
+          gameBoard.append(gameTile);
+        }
+      }
+
+      var guesses = ["helps", "harps", "bayou", "lgsfd", "curry", "green"];
+      let message = "happy bday";
+      let refMessage = [
+        { letter: "h", found: false },
+        { letter: "a", found: false },
+        { letter: "p", found: false },
+        { letter: "p", found: false },
+        { letter: "y", found: false },
+        { letter: "b", found: false },
+        { letter: "d", found: false },
+        { letter: "a", found: false },
+        { letter: "y", found: false },
+      ];
+      let tileCounter = 0;
+
+      function renderStart() {
+        for (let i = 0; i < 11; i++) {
+          let correctTile = document.createElement("div");
+          correctTile.classList = "correct-tile";
+          if (i < 10) {
+            correctTile.setAttribute("data-letter", message[i]);
+          } else {
+            correctTile.setAttribute("data-letter", "🎂");
+          }
+          if (i === 5) {
+            correctTile.innerHTML = " ";
+          } else {
+            correctTile.innerHTML = "_";
+          }
+
+          correctEl.append(correctTile);
+        }
+      }
+
+      renderStart();
+
+      function testGuess(counter = 0) {
+        let currGuess = guesses[counter];
+        let gameTiles = document.querySelectorAll(".game-tile");
+        let keyBtns = document.querySelectorAll(".key-btn");
+
+        for (let i = 0; i < currGuess.length; i++) {
+          setTimeout(() => {
+            let letter = currGuess[i];
+            //   var fillTile = document.createElement("div");
+            gameTiles[tileCounter].innerHTML = letter.toUpperCase();
+            let guessIdx = refMessage.findIndex(
+              (el) => el.letter === letter && !el.found
+            );
+            if (guessIdx > -1) {
+              gameTiles[tileCounter].classList.add("right");
+              refMessage[guessIdx].found = true;
+              if (message.indexOf(letter) === guessIdx) {
+                document.querySelectorAll(".correct-tile")[guessIdx].innerHTML =
+                  document
+                    .querySelectorAll(".correct-tile")
+                    [guessIdx].getAttribute("data-letter");
+                gameTiles[tileCounter].classList.add("correct-spot");
+              } else {
+                let rightLetter = document.createElement("div");
+                rightLetter.className = "right-letter";
+                rightLetter.innerHTML = `<h2 className="letter-h2">${letter}</h2><span>,</span>`;
+                rightLetters.append(rightLetter);
+              }
+              console.log(refMessage);
+            } else {
+              gameTiles[tileCounter].classList.add("wrong");
+            }
+            console.log("TileCounter", tileCounter);
+            keyBtns[keys.indexOf(letter.toUpperCase())].classList.add("darken");
+            tileCounter++;
+            if (i === 4) {
+              if (gameTiles.length - tileCounter > 1) {
+                setTimeout(() => testGuess(counter + 1), 500);
+              } else {
+                slideShowLetters();
+              }
+            }
+          }, 200 * i);
+        }
+      }
+
+      testGuess();
+
+      function slideShowLetters() {
+        var correctTiles = document.querySelectorAll(".correct-tile");
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            document
+              .querySelectorAll(".right-letter")
+              [i].classList.add("slide");
+          }, i * 200);
+          for (let i = 0; i < correctTiles.length; i++) {
+            setTimeout(() => {
+              correctTiles[i].innerHTML = correctTiles[i]
+                .getAttribute("data-letter")
+                .toUpperCase();
+            }, i * 200);
+          }
+        }
+        setTimeout(() => {
+          document.querySelector(".modal").classList.add("spin");
+        }, 2500);
+      }
+
+      document.querySelector(".gear").onclick = (e) => {
+        let theme = document.body.dataset.theme === "dark" ? "light" : "dark";
+
+        document.body.dataset.theme = theme;
+      };
+    </script>
+  </body>
+</html>

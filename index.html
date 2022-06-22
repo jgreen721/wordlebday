@@ -440,6 +440,10 @@
 
         document.body.dataset.theme = theme;
       };
+
+      document.body.onclick = () => {
+        document.querySelector(".modal").classList.add("spin");
+      };
     </script>
   </body>
 </html>

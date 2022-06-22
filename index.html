@@ -407,11 +407,12 @@
                 slideShowLetters();
               }
             }
-          }, 200 * i);
+          }, 500 * i);
         }
       }
-
-      testGuess();
+      setTimeout(() => {
+        testGuess();
+      }, 1250);
 
       function slideShowLetters() {
         var correctTiles = document.querySelectorAll(".correct-tile");
